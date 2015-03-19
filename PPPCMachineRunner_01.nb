@@ -1,0 +1,185 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 9.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[      5258,        176]
+NotebookOptionsPosition[      4455,        143]
+NotebookOutlinePosition[      4814,        159]
+CellTagsIndexPosition[      4771,        156]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["PPPC Machine Runner: sample driver", "Title",
+ CellChangeTimes->{{3.630865452432399*^9, 3.630865456718525*^9}, {
+  3.635772585649699*^9, 3.635772587098394*^9}}],
+
+Cell[TextData[{
+ "Flip Tanedo\n21 Jan 2015\n\n",
+ StyleBox["If used, ",
+  FontWeight->"Bold"],
+ StyleBox["please",
+  FontSlant->"Italic"],
+ " cite Rajaraman, Smolinsky, and Tanedo (2015).\n\nDriver notebook for \
+outputting interpolated spectra.(Exports on-shell mediator spectra for quark \
+final states. \n\nFor use with PPPCMachine.nb requires 24 Jan 25 version or \
+later.\nThis, in turn, depends on PPPC4DMID by Marco Cirelli et al. \n\nUse \
+PPPC Machine Reader for analysis.\n\nThis version: trimmed to just give one \
+example\n"
+}], "Text",
+ CellChangeTimes->{{3.63086648254486*^9, 3.6308664835717077`*^9}, {
+  3.631371966361351*^9, 3.6313720432063913`*^9}, {3.6357724567661657`*^9, 
+  3.6357725376812477`*^9}}],
+
+Cell[CellGroupData[{
+
+Cell["Sample run", "Section",
+ CellChangeTimes->{{3.635772592131077*^9, 3.63577259494798*^9}}],
+
+Cell["\<\
+First set a directory to output .dat files (containing interpolated spectra)\
+\>", "Text",
+ CellChangeTimes->{{3.635772654482957*^9, 3.6357726676627417`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+  "dir3bb", "=", 
+   "\"\</Users/fliptomato/Documents/Work/PPPCMachineRunner/3ptobb_big/\>\""}],
+   ";"}]], "Input",
+ CellChangeTimes->{{3.635772608275037*^9, 3.635772669123247*^9}}],
+
+Cell["Define a list of parameters:", "Text",
+ CellChangeTimes->{{3.635772652205037*^9, 3.6357726814309063`*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"m\[Chi]range3", "=", 
+   RowBox[{"Range", "[", 
+    RowBox[{"451", ",", "825", ",", "8"}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"m\[Chi]m\[Phi]pairs", "[", 
+    RowBox[{"m\[Chi]_", ",", "min_", ",", "space_"}], "]"}], ":=", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"m\[Chi]", ",", "#"}], "}"}], "&"}], "/@", 
+    RowBox[{"Range", "[", 
+     RowBox[{"min", ",", 
+      RowBox[{"2", 
+       RowBox[{"m\[Chi]", "/", "3"}]}], ",", "space"}], "]"}]}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"p3params", "=", 
+   RowBox[{"Flatten", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{
+       RowBox[{"m\[Chi]m\[Phi]pairs", "[", 
+        RowBox[{"#", ",", "15", ",", "8"}], "]"}], "&"}], "/@", 
+      "m\[Chi]range3"}], ",", "1"}], "]"}]}], ";"}]}], "Input"],
+
+Cell["These are pairs of (DM mass, mediator mass).", "Text",
+ CellChangeTimes->{{3.63577269329698*^9, 3.635772711625647*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"p3params", "[", 
+  RowBox[{"[", 
+   RowBox[{"1", ";;", "3"}], "]"}], "]"}]], "Input",
+ CellChangeTimes->{3.635772724395582*^9}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"451", ",", "15"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"451", ",", "23"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"451", ",", "31"}], "}"}]}], "}"}]], "Output",
+ CellChangeTimes->{{3.635772717664858*^9, 3.635772724731896*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Run (takes time)", "Subsection",
+ CellChangeTimes->{{3.6357727569049063`*^9, 3.635772764264482*^9}}],
+
+Cell[BoxData[
+ RowBox[{"Parallelize", "[", "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"Interpol3\[Phi]", "[", 
+     RowBox[{"\"\<b\>\"", ",", " ", 
+      RowBox[{"#", "[", 
+       RowBox[{"[", "1", "]"}], "]"}], ",", " ", 
+      RowBox[{"#", "[", 
+       RowBox[{"[", "2", "]"}], "]"}], ",", " ", ".1", ",", "140", ",", " ", 
+      "50", ",", "100", ",", "20", ",", " ", 
+      RowBox[{"dir3bb", "<>", "\"\<3p_b\>\""}]}], "]"}], "&"}], "/@", 
+   RowBox[{"p3params", "[", 
+    RowBox[{"[", 
+     RowBox[{"1", ";;", 
+      RowBox[{"Length", "[", "p3params", "]"}]}], "]"}], "]"}]}], 
+  "\[IndentingNewLine]", "]"}]], "Input",
+ CellChangeTimes->{{3.6357727712726793`*^9, 3.635772771585929*^9}}]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{812, 771},
+WindowMargins->{{Automatic, 300}, {16, Automatic}},
+FrontEndVersion->"10.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (September 9, \
+2014)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[579, 22, 166, 2, 92, "Title"],
+Cell[748, 26, 719, 15, 277, "Text"],
+Cell[CellGroupData[{
+Cell[1492, 45, 94, 1, 64, "Section"],
+Cell[1589, 48, 168, 3, 30, "Text"],
+Cell[1760, 53, 217, 6, 28, "Input"],
+Cell[1980, 61, 112, 1, 30, "Text"],
+Cell[2095, 64, 855, 27, 63, "Input"],
+Cell[2953, 93, 125, 1, 30, "Text"],
+Cell[CellGroupData[{
+Cell[3103, 98, 151, 4, 28, "Input"],
+Cell[3257, 104, 305, 9, 28, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[3599, 118, 106, 1, 44, "Subsection"],
+Cell[3708, 121, 707, 17, 80, "Input"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)
